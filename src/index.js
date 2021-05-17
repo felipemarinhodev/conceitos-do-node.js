@@ -11,10 +11,10 @@ app.use(express.json());
 const users = [];
 
 function checksExistsUserAccount(request, response, next) {
-  const { username } = request.body;
-  const user = users.filter(user => user.username === username);
+  const { username } = request.headers;
+  const user = users.find(user => user.username === username);
   if (!user) {
-    return response.status(400).json({ error: 'Messangem de erro' })
+    return response.status(404).json({ error: 'Messangem de erro' })
   }
   request.user = user
   return next();
