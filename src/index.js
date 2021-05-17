@@ -20,6 +20,17 @@ function checksExistsUserAccount(request, response, next) {
   return next();
 }
 
+function checksExistsTodo(request, response, next) {
+  const { user } = request;
+  const { id } = request.params;
+  const todo = user.todos.find(todo => todo.id === id);
+  if (!todo) {
+    return response.status(404).json({ error: 'Messangem de erro' })
+  }
+  request.todo = todo
+  return next();
+}
+
 app.post('/users', (request, response) => {
   const { name , username } = request.body;
   const userAlreadySaved = users.some(user => user.username === username)
