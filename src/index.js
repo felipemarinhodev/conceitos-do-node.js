@@ -66,11 +66,9 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
   return response.status(201).json(todo)
 });
 
-app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
-  const { id } = request.params;
+app.put('/todos/:id', checksExistsUserAccount, checksExistsTodo, (request, response) => {
   const { title, deadline } = request.body;
-  const { user } = request;
-  const todo = user.todos.find(todo => todo.id === id);
+  const { todo } = request;
   todo.title = title;
   todo.deadline = deadline;
   return response.json(todo)
